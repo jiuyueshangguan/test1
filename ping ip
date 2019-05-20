@@ -1,0 +1,14 @@
+> /tmp/tong.txt
+> /tmp/butong.txt
+ip=192.168.217
+for i in `seq 1 254`
+do
+{
+  ping -c2 $ip.$i &>/dev/null
+  if [ $? -ne 0 ];then
+    echo $ip.$i >> /tmp/tong.txt
+  else
+    echo $ip.$i >> /tmp/butong.txt
+  fi
+}&
+done
