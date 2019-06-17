@@ -1,0 +1,71 @@
+docker安装rpm包： wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-17.09.0.ce-1.el7.centos.x86_64.rpm
+国内比较好的镜像源：网易蜂巢、aliyun和daocloud
+国内镜像：进入网站：https://hub.daocloud.io/
+下载镜像：			docker pull daocloud.io/library/nginx
+查看本地镜像：		docker images
+运行容器：			docker run -it daocloud.io/library/centos /bin/bash
+公有库：			docker-hub  daocloud ali 网易蜂巢
+给镜像打标签：		docker tag 11662b14f5e0 ubuntu:jdk1.7
+查看镜像详情：		docker image inspect 镜像id
+删除镜像：		删除一个或多个，多个之间用空格隔开，可以使用镜像名称或id
+					docker rmi daocloud.io/library/mysql
+强制删除：			docker rmi docker.io/ubuntu:latest --force
+删除所有镜像：		docker rmi $(docker images -q)
+查看所有镜像的pid：	docker images -q 
+创建新容器但不启动	docker create -it daocloud.io/library/centos:5 /bin/bash
+--restart=always 	容器随docker engine自启动，因为在重启docker的时候默认容器都会被关闭  
+只查看运行状态的容器：docker ps
+查看所有容器		docker ps -a
+只查看所有容器id:	docker ps -a -q
+列出最近一次启动的容器		docker ps -l   
+启动容器：			docker start  name
+					docker stop  name
+					docker restart name
+杀死所有running状态的容器					docker kill $(docker ps  -q)  
+删除容器：			docker rm 容器id或名称
+要删除一个运行中的容器，添加 -f 参数
+根据格式删除所有容器：	docker rm $(docker ps -qf status=exited)
+让容器运行在后台：		docker run后面追加-d=true或者-d
+						docker run -d IMAGE[:TAG] 命令
+						docker logs container_id   #打印该容器的输出
+port	输出容器端口与宿主机端口的映射情况	
+		docker port blog
+连接容器：
+	方法1.attach
+	# docker attach 容器id   //前提是容器创建时必须指定了交互shell	
+	方法2.exec      
+    通过exec命令可以创建两种任务：后台型任务和交互型任务：
+    # docker exec -it  容器id  /bin/bash
+	
+
+将容器的文件系统打包成tar文件,也就是把正在运行的容器直接导出为tar包的镜像文件
+	docker export 容器名称 > 镜像.tar
+
+镜像迁移：
+	save	将镜像打包，与下面的load命令相对应
+			#docker save -o nginx.tar nginx
+	load	与上面的save命令相对应，将上面sava命令打包的镜像通过load命令导入
+			#docker load < nginx.tar
+			
+使用 docker commit 指令，把一个正在运行的容器，直接提交为一个镜像。
+	docker commit 4ddf4638572d wing/helloworld:v2
+	
+运行容器：使用-p作端口转发，把本地3307转发到容器的3306
+	docker run --name mysql1 -p 3307:3306  -e MYSQL_ROOT_PASSWORD=123 daocloud.io/library/mysql
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
